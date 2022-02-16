@@ -41,7 +41,7 @@ fn main() {
         let parts = name.split("_").collect::<Vec<&str>>();
         if parts.len() == 3 {
             ip = parts[1].to_string();
-            port = parts[2].to_string();
+            port = parts[2].split(".").collect::<Vec<&str>>()[0].to_string();
         }
     } else {
         if let Some(i) = matches.value_of("ip"){
@@ -52,7 +52,7 @@ fn main() {
         }
     }    
     if ip.len() == 0 || port.len() == 0{
-        //println!("Usage: rcat <ip> <port> || rcat_ip_port");
+        println!("Usage: rcat <ip> <port> || rcat_ip_port");
         return;   
     }
     //println!("[+] Connection to {}:{}", ip, port);   

