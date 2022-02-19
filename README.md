@@ -4,9 +4,11 @@ Simple rust reverse shell, similar to nc.
 
 ## usage
 
-rcat connect <ip> <port>
-rcat listen <ip> <port>
-rcat_ip_port
+```
+rcat.exe connect <ip> <port>
+rcat.exe listen <ip> <port>
+rcat_ip_port.exe
+```
 
 ## compile
 
