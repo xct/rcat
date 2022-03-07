@@ -13,6 +13,7 @@ rcat_ip_port.exe
 ## compile
 
 ```
+sudo apt update && sudo apt install mingw-w64
 rustup target add x86_64-pc-windows-gnu
 rustup toolchain install stable-x86_64-pc-windows-gnu
 ```
